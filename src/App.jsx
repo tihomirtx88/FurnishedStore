@@ -1,4 +1,4 @@
-import { About, Cart, Checkout, Login, Error, HomeLayout, Landing, Orders, Products, Register, SingleProduct } from './pages';
+import { About, Cart, Checkout, Login, Error, HomeLayout, Landing, Orders, Products, Register, SingleProduct } from './pages/idnex.js';
 import { createBrowserRouter, RouterProvider} from 'react-router-dom';
 
 const router = createBrowserRouter([
