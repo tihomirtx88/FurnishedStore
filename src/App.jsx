@@ -1,3 +1,4 @@
+import { About, Cart, Checkout, Error, HomeLayout, Landing, Orders, Products, Register, SingleProduct } from './pages';
 
 
 function App() {
