@@ -1,5 +1,9 @@
+import ErrorElement from './components/ErrorElement.jsx';
 import { About, Cart, Checkout, Login, Error, HomeLayout, Landing, Orders, Products, Register, SingleProduct } from './pages/idnex.js';
 import { createBrowserRouter, RouterProvider} from 'react-router-dom';
+
+//loaders
+import { loader as landingLoader} from './pages/Landing.jsx';
 
 const router = createBrowserRouter([
   {
@@ -9,7 +13,9 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Landing/>
+        element: <Landing/>,
+        errorElement: <ErrorElement/>,
+        loader: landingLoader
       },
       {
         path: 'products',
