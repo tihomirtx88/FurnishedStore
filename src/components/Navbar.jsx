@@ -4,9 +4,7 @@ import NavLinks from "./NavLinks";
 import { useEffect, useState } from "react";
 
 const Navbar = () => {
-
   const getInitialTheme = () => {
-
     if (localStorage.getItem("theme")) {
       return localStorage.getItem("theme") === "dark";
     }
@@ -15,7 +13,6 @@ const Navbar = () => {
   };
 
   const [darkMode, setDarkMode] = useState(getInitialTheme);
-
 
   useEffect(() => {
     if (darkMode) {
@@ -26,7 +23,7 @@ const Navbar = () => {
       localStorage.setItem("theme", "light");
     }
   }, [darkMode]);
-  
+
   return (
     <nav className="bg-gray-200 dark:bg-gray-800 transition-all duration-300">
       <div className="navbar flex justify-between items-center px-6 py-3">
@@ -37,13 +34,14 @@ const Navbar = () => {
         >
           MySite
         </NavLink>
-
-        {/* MENU */}
-        <div className="flex items-center gap-4">
-          <ul className="hidden lg:flex space-x-6">
+        {/* CENTER: Nav Links */}
+        <div className="navbar-center flex-grow flex justify-center">
+          <ul className="flex space-x-6">
             <NavLinks />
           </ul>
-
+        </div>
+        {/* MENU */}
+        <div className="flex items-center gap-4">
           {/* THEME TOGGLE BUTTON */}
           <button
             className="p-2 rounded-full transition-colors"
