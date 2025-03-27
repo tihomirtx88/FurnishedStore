@@ -14,6 +14,7 @@ const NavLinks = () => {
     <>
       {links.map((link) => {
         const { id, url, text } = link;
+        
         if ((url === 'checkout' || url === 'orders')) return null;
         return (
           <li key={id}>
