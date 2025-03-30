@@ -1,4 +1,3 @@
-import { useLoaderData } from "react-router-dom";
 import { customFetch } from "../utils/idnex";
 import { Link } from 'react-router-dom';
 

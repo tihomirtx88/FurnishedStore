@@ -4,7 +4,11 @@ import { createBrowserRouter, RouterProvider} from 'react-router-dom';
 
 //loaders
 import { loader as landingLoader} from './pages/Landing.jsx';
+
+
+
 import { loader as singleProductLoader} from './pages/SingleProduct.jsx';
+
 
 const router = createBrowserRouter([
   {
