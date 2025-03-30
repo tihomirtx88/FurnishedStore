@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider} from 'react-router-dom';
 
 //loaders
 import { loader as landingLoader} from './pages/Landing.jsx';
+import { loader as singleProductFetch} from './pages/SingleProduct.jsx';
 
 const router = createBrowserRouter([
   {
@@ -23,7 +24,8 @@ const router = createBrowserRouter([
       },
       {
         path: 'products/:id',
-        element: <SingleProduct/>
+        element: <SingleProduct/>,
+        loader: singleProductFetch
       },
       {
         path: 'cart',
