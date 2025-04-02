@@ -4,8 +4,6 @@ import { formatPrice } from '../utils/idnex';
 const ProductsList = () => {
 
   const { products } = useLoaderData();
-  console.log(products);
-  
 
   return (
 
