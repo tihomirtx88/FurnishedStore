@@ -13,3 +13,4 @@ export {default as PaginationContainer} from './PaginationContainer';
 export {default as ProductsContainer} from './ProductsContainer';
 export {default as ProductsList} from './ProductList';
 export {default as FormSelect} from './FormSelect';
+export {default as FormRange} from './FormRange';
