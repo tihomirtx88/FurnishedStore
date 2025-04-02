@@ -1,8 +1,7 @@
 import { useLoaderData } from "react-router-dom";
-import { customFetch } from "../utils/idnex";
+import { customFetch, generateAmountOptions } from "../utils/idnex";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-
 
 export const loader = async ({ params }) => {
   const response = await customFetch(`/products/${params.id}`);
@@ -16,6 +15,11 @@ const SingleProduct = () => {
   const [productColors, setProductColors] = useState(
     product.colors ? product.colors[0] : "#222"
   );
+  const [amount, setAmount] = useState(1);
+
+  const handleAmount = (e) => {
+    setAmount(parseInt(e.target.value));
+  };
 
   return (
     <section>
@@ -73,9 +77,17 @@ const SingleProduct = () => {
               </h4>
             </label>
             <select
-              className="select select-secondary select-bordered select-md"
+              className="select select-secondary select-bordered select-md text-black"
               id="amount"
-            ></select>
+              value={amount}
+              onChange={handleAmount}
+            >
+              {generateAmountOptions(5).map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
           </div>
           {/* CART BTN */}
           <div className="mt-10">
