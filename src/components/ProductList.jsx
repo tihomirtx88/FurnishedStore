@@ -4,6 +4,8 @@ import { formatPrice } from '../utils/idnex';
 const ProductsList = () => {
 
   const { products } = useLoaderData();
+  console.log(products);
+  
 
   return (
 
@@ -25,8 +27,8 @@ const ProductsList = () => {
               className='h-24 w-24 rounded-lg sm:h-32 sm:w-32 object-cover group-hover:scale-105 transition duration-300'
             />
             <div className='ml-0 sm:ml-16'>
-              <h3 className='capitalize font-medium text-lg'>{name}</h3>
-              <h4 className='capitalize text-md text-neutral-content'>
+              <h3 className='capitalize font-semibold text-lg text-gray-900 font-serif tracking-wide'>{name}</h3>
+              <h4 className='capitalize text-md text-gray-700 font-serif italic'>
                 {company}
               </h4>
             </div>
