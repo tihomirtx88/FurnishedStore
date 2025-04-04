@@ -1,4 +1,4 @@
-const FormCheckbox = ({ label, name, size }) => {
+const FormCheckbox = ({ label, name, size, checked, onChange }) => {
   return (
     <div className="form-control items-center">
       <label htmlFor={name} className="label cursor-pointer text-black m-4">
@@ -8,6 +8,8 @@ const FormCheckbox = ({ label, name, size }) => {
         type="checkbox"
         name={name}
         className={`checkbox checkbox-primary ${size}`}
+        checked={checked}
+        onChange={onChange}
       />
     </div>
   );

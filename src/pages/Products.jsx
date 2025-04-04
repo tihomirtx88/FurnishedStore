@@ -3,16 +3,17 @@ import { customFetch } from "../utils/idnex";
 
 export const loader = async ({ request }) => {
   const url = new URL(request.url);
+  const searchParams = new URLSearchParams(url.search);
 
-  // Extract all query params
-  const search = url.searchParams.get("search") || "";
-  const category = url.searchParams.get("category") || "all";
-  const company = url.searchParams.get("company") || "all";
-  const order = url.searchParams.get("order") || "a-z";
-  const shipping = url.searchParams.get("shipping") === "on";
-  const price = url.searchParams.get("price") || "";
+  const search = searchParams.get("search") || "";
+  const category = searchParams.get("category") || "all";
+  const company = searchParams.get("company") || "all";
+  const order = searchParams.get("order") || "a-z";
+  const shipping = searchParams.get("shipping") === "on";
+  const price = searchParams.get("price") || "";
 
   const params = new URLSearchParams();
+
 
   if (search) params.append("search", search);
   if (category !== "all") params.append("category", category);
@@ -22,7 +23,7 @@ export const loader = async ({ request }) => {
   if (price) params.append("price", price);
 
   const response = await customFetch(`/products?${params.toString()}`);
-  const products = response?.data?.porducts;
+  const products = response?.data?.products;  
   return { products };
 };
 

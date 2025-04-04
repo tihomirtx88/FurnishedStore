@@ -5,7 +5,7 @@ import { useState } from "react";
 
 export const loader = async ({ params }) => {
   const response = await customFetch(`/products/${params.id}`);
-  const product = response?.data?.product ?? {};
+  const product = response?.data?.products ?? {};
   return { product };
 };
 
