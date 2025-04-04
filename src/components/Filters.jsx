@@ -2,6 +2,7 @@ import { Form, Link, useLoaderData } from "react-router-dom";
 import FormInput from "./FormInput";
 import FormSelect from "./FormSelect";
 import FormRange from "./FormRange";
+import FormCheckbox from "./FormCheckbox";
 import { useState } from "react";
 
 const Filters = () => {
@@ -17,7 +18,10 @@ const Filters = () => {
     ...new Set(products.map((product) => product.company)),
   ];
 
-  const maxProductPrice = Math.max(...products.map((product) => product.price), 0);
+  const maxProductPrice = Math.max(
+    ...products.map((product) => product.price),
+    0
+  );
 
   const [selectedPrice, setSelectedPrice] = useState(maxProductPrice);
 
@@ -60,6 +64,8 @@ const Filters = () => {
         maxPrice={maxProductPrice}
         setSelectedPrice={setSelectedPrice}
       />
+      {/* SHIPPING */}
+      <FormCheckbox name="shipping" label="free shipping" size="checkbox-sm" />
       {/* BUTTONS */}
       <button type="submit" className="btn btn-primary btn-sm">
         search
