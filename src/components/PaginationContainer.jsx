@@ -5,11 +5,15 @@ const PaginationContainer = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   if (numOfPages <= 1) return null;
-
+  
+  // Creating pages
   const pages = Array.from({ length: numOfPages }, (_, i) => i + 1);
 
+
   const setPage = (pageNum) => {
+    // Creating coppy on current URL params
     const newParams = new URLSearchParams(searchParams);
+    //Update the URL and run loader again
     newParams.set("page", pageNum);
     setSearchParams(newParams);
   };
