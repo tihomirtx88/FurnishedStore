@@ -2,13 +2,14 @@ import { BsCart3, BsMoonFill, BsSunFill } from "react-icons/bs";
 import { NavLink } from "react-router-dom";
 import NavLinks from "./NavLinks";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
+
   const getInitialTheme = () => {
     if (localStorage.getItem("theme")) {
       return localStorage.getItem("theme") === "dark";
     }
-
     return window.matchMedia("(prefers-color-scheme: dark)").matches;
   };
 
@@ -23,6 +24,8 @@ const Navbar = () => {
       localStorage.setItem("theme", "light");
     }
   }, [darkMode]);
+
+  const numItemsInCart = useSelector((state) => state.cartState.numItemsInCart);
 
   return (
     <nav className="bg-gray-200 dark:bg-gray-800 transition-all duration-300">
@@ -58,7 +61,7 @@ const Navbar = () => {
           <NavLink to="/cart" className="relative">
             <BsCart3 className="h-6 w-6 text-gray-800 dark:text-white" />
             <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full px-2">
-              6
+              {numItemsInCart}
             </span>
           </NavLink>
         </div>

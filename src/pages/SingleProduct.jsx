@@ -30,7 +30,8 @@ const SingleProduct = () => {
     name, 
     price,
     company,
-    productColors
+    productColors,
+    amount
   };
 
   const dispatch = useDispatch();
