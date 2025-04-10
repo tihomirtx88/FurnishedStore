@@ -52,6 +52,8 @@ const cartSlice = createSlice({
     },
     clearCart: (state) => {
         localStorage.getItem('cart', JSON.stringify(defaultState));
+        console.log(state);
+        
         return defaultState;
     },
     editItem: (state, action) => {
