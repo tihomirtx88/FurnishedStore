@@ -16,8 +16,8 @@ const Cart = () => {
   }
   return (
     <>
-      <SectionTitle text="Your cart is empty" />
-      <div className="mt-8 grid gap-8 lg:grid-cols-12">
+      <SectionTitle text="Your cart" />
+      <div className="mt-8 grid gap-8 lg:grid-cols-12 px-4 sm:px-6 lg:px-8">
         <div className="lg:col-span-8">
           <CartItemsList />
         </div>
