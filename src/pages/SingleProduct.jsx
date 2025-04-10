@@ -7,12 +7,14 @@ import { addItem } from "../features/cart/cartSlice";
 
 export const loader = async ({ params }) => {
   const response = await customFetch(`/products/${params.id}`);
-  const product = response?.data?.products ?? {};
+  const product = response?.data?.product ?? {};
+  console.log(response);
   return { product };
 };
 
 const SingleProduct = () => {
   const { product } = useLoaderData();
+
   const { id, name, image, company, description, colors, price } = product;
   const [productColors, setProductColors] = useState(
     product.colors ? product.colors[0] : "#222"
@@ -33,6 +35,8 @@ const SingleProduct = () => {
     productColors,
     amount
   };
+
+  
 
   const dispatch = useDispatch();
 
