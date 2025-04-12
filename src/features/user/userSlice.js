@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 
 const defaultState = {
   user: { username: "codeMonster" },
@@ -12,7 +13,9 @@ const userSlice = createSlice({
       console.log("login user");
     },
     logoutUser: (state) => {
-      console.log("logout user");
+      state.user = null;
+      localStorage.removeItem('user');
+      toast.success('Logout user successfuly');
     },
   },
 });
