@@ -9,7 +9,7 @@ import { loader as productsLoader} from './pages/Products.jsx';
 
 // actions
 import { action as registerAction} from './pages/Register.jsx';
-import { action as loginAction} from './pages/Register.jsx';
+import { action as loginAction} from './pages/Login.jsx';
 
 import { store } from "./store.js";
 
