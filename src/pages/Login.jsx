@@ -10,7 +10,7 @@ export const action = ( store ) => async ({request}) => {
   const data = Object.fromEntries(formData);
 
   try {
-    const response = await customFetch.post('/auth/login', data);
+    const response = await customFetch.post('/auth/login', data, { withCredentials: true });
     // Pass response data to userslice
     store.dispatch(loginUser(response.data));
     console.log(response);
