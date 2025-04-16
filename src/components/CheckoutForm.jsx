@@ -46,6 +46,9 @@ export const action = (store) => async ({ request }) => {
         },
       });
 
+      console.log(response);
+      
+
       store.dispatch(clearCart());
       toast.success('Order placed successfully!');
       return redirect('/orders');
