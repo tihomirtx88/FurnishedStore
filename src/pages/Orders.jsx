@@ -24,11 +24,9 @@ export const loader =
         },
       });
 
-      console.log(response);
-      
+      const { orders, numOfPages, currentPage, totalProducts, count } = response.data;
+      return { orders, numOfPages, currentPage, totalProducts, count };
 
-      const { orders } = response.data;
-      return { orders };
     } catch (error) {
       const msg =
         error?.response?.data?.error?.message || "Order failed. Try again.";
