@@ -16,7 +16,7 @@ export const action = ( store ) => async ({request}) => {
     console.log(response);
     
     toast.success('Account login successfully');
-    redirect('/');
+    return redirect('/');
   } catch (error) {
     const errorMessage = error?.response?.data?.error?.message || 'Please double check your credentials!';
     toast.error(errorMessage);
