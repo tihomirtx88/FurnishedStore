@@ -46,9 +46,6 @@ export const action = (store) => async ({ request }) => {
         },
       });
 
-      console.log(response);
-      
-  
       store.dispatch(clearCart());
       toast.success('Order placed successfully!');
       return redirect('/orders');
@@ -56,6 +53,7 @@ export const action = (store) => async ({ request }) => {
       const msg =
         error?.response?.data?.error?.message || 'Order failed. Try again.';
       toast.error(msg);
+      if(error.response.status === 401) return redirect('/login');
       return null;
     }
 };
