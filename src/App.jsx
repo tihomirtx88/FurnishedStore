@@ -9,6 +9,9 @@ import { loader as productsLoader} from './pages/Products.jsx';
 
 // actions
 import { action as registerAction} from './pages/Register.jsx';
+import { action as loginAction} from './pages/Register.jsx';
+
+import { store } from "./store.js";
 
 const router = createBrowserRouter([
   {
@@ -53,7 +56,9 @@ const router = createBrowserRouter([
   {
     path: '/login',
     element: <Login/>,
-    errorElement: <Error/>
+    errorElement: <Error/>,
+    // Passing store in action
+    action: loginAction(store)
   },
   {
     path: '/register',
