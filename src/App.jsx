@@ -6,6 +6,7 @@ import { createBrowserRouter, RouterProvider} from 'react-router-dom';
 import { loader as landingLoader} from './pages/Landing.jsx';
 import { loader as singleProductLoader} from './pages/SingleProduct.jsx';
 import { loader as productsLoader} from './pages/Products.jsx';
+import { loader as checkoutLoader} from './pages/Checkout.jsx';
 
 // actions
 import { action as registerAction} from './pages/Register.jsx';
@@ -49,7 +50,8 @@ const router = createBrowserRouter([
       },
       {
         path: 'checkout',
-        element: <Checkout/>
+        element: <Checkout/>,
+        loader: checkoutLoader(store)
       },
     ]
   },
