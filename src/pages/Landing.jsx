@@ -4,7 +4,7 @@ import { customFetch } from "../utils/idnex";
 
 const url = 'products';
 
-export const loader = async () => {
+export const loader = ( queryClient ) => async () => {
   const response = await customFetch(url);
   const products = response?.data?.products;
 
