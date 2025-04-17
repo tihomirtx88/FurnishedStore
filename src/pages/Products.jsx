@@ -1,6 +1,7 @@
 import { Filters, PaginationContainer, ProductsContainer } from "../components";
 import { customFetch } from "../utils/idnex";
 
+
 export const loader = (queryClient) => async ({ request }) => {
   const url = new URL(request.url);
 
