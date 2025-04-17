@@ -4,8 +4,13 @@ import { customFetch } from "../utils/idnex";
 
 const url = 'products';
 
+const featuredProductsQuery = {
+  queryKey: ['featuredProducts'],
+  queryFn: () => customFetch(url)
+};
+
 export const loader = ( queryClient ) => async () => {
-  const response = await customFetch(url);
+  const response = await queryClient.ensureQueryData(featuredProductsQuery);
   const products = response?.data?.products;
 
   return { products };
