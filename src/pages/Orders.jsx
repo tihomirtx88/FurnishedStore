@@ -3,8 +3,21 @@ import { OrderList, PaginationContainer, SectionTitle } from "../components";
 import { redirect, useLoaderData } from "react-router-dom";
 import { customFetch } from "../utils/idnex";
 
+const ordersQuery = (params, user) => {
+   return{
+    queryKey: ['orders', user.username, params.page ? parseInt(params.page) : 1],
+    queryFn: () => customFetch("/orders", {
+        params,
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      })
+   }
+  };
+  
+
 export const loader =
-  (store) =>
+  (store, queryClient) =>
   async ({ request }) => {
     const user = store.getState().userState.user;
     if (!user) {
@@ -17,12 +30,7 @@ export const loader =
     ]);
 
     try {
-      const response = await customFetch("/orders", {
-        params,
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
+      const response = await queryClient.ensureQueryData(ordersQuery(params, user));
 
       const { orders, numOfPages, currentPage, totalProducts, count } = response.data;
       return { orders, numOfPages, currentPage, totalProducts, count };
@@ -31,7 +39,7 @@ export const loader =
       const msg =
         error?.response?.data?.error?.message || "Order failed. Try again.";
       toast.error(msg);
-      if (error.response.status === 401) return redirect("/login");
+      if (error?.response?.status === 401) return redirect("/login");
       return null;
     }
   };

@@ -1,8 +1,7 @@
 import { Outlet } from "react-router-dom";
 import Header from "../components/Header";
 import Navbar from "../components/Navbar";
-import Loading from "../components/Loading";
-import { useIsFetching } from "@tanstack/react-query";
+
 
 const HomeLayout = () => {
   // const isFetching = useIsFetching();
