@@ -2,7 +2,7 @@ import { useLoaderData } from "react-router-dom";
 import { customFetch, generateAmountOptions } from "../utils/idnex";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addItem } from "../features/cart/cartSlice";
 
 const singleProductQuery = (id) => {
@@ -50,6 +50,11 @@ const SingleProduct = () => {
   const addToCart = () => {
     dispatch(addItem({product: cartProduct}));
   };
+
+  const user = useSelector((state) => state.userState.user);
+  const role = user?.role;
+  console.log(role);
+  
 
   return (
     <section>

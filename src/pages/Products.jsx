@@ -47,6 +47,7 @@ export const loader = (queryClient) => async ({ request }) => {
 };
 
 const Products = () => {
+ 
   return (
     <>
       <Filters />

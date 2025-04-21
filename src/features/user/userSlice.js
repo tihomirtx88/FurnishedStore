@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 
-const defaultState = {
-  user: { username: "codeMonster" },
+const initialState = {
+  user: null,
 };
 
 const getUserFromLocalStorage = () => {
@@ -11,11 +11,11 @@ const getUserFromLocalStorage = () => {
 
 const userSlice = createSlice({
   name: "user",
-  initialState: defaultState,
+  initialState,
   reducers: {
     loginUser: (state, action) => {
       const user = {...action.payload.user, token: action.payload.jwt};
-      state.user = user;
+      state.user = action.payload.user;
       localStorage.setItem('user', JSON.stringify(user));
     },
     logoutUser: (state) => {

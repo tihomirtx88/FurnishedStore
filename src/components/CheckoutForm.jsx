@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { customFetch } from "../utils/idnex";
 import { clearCart } from "../features/cart/cartSlice";
 
-export const action = (store) => async ({ request }) => {
+export const action = (store, queryClient) => async ({ request }) => {
     const data = await request.formData();
     const { name, address} = Object.fromEntries(data);
     const user = store.getState().userState.user;
@@ -45,10 +45,8 @@ export const action = (store) => async ({ request }) => {
           Authorization: `Bearer ${user.token}`,
         },
       });
-
-      console.log(response);
       
-
+      queryClient.removeQueries(['orders']);
       store.dispatch(clearCart());
       toast.success('Order placed successfully!');
       return redirect('/orders');
