@@ -42,8 +42,6 @@ const SingleProduct = () => {
     amount
   };
 
-  
-
   const dispatch = useDispatch();
 
   const addToCart = () => {
@@ -128,9 +126,9 @@ const SingleProduct = () => {
             <button className="btn btn-secondary btn-md" onClick={addToCart}>Add to bag</button>
             {role === "admin" && (
               <>
-                <button className="btn btn-warning btn-md m-4">
+                <Link to={`/products/${id}/edit`} className="btn btn-warning btn-md m-4">
                   Edit Product
-                </button>
+                </Link>
                 <button className="btn btn-error btn-md">
                   Delete Product
                 </button>
