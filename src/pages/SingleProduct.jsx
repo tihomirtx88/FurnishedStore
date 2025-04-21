@@ -15,7 +15,6 @@ const singleProductQuery = (id) => {
 export const loader = (queryClient) => async ({ params }) => {
   const response = await queryClient.ensureQueryData(singleProductQuery(params.id));
   const product = response?.data?.product ?? {};
-  console.log(response);
   return { product };
 };
 
@@ -127,6 +126,16 @@ const SingleProduct = () => {
           {/* CART BTN */}
           <div className="mt-10">
             <button className="btn btn-secondary btn-md" onClick={addToCart}>Add to bag</button>
+            {role === "admin" && (
+              <>
+                <button className="btn btn-warning btn-md m-4">
+                  Edit Product
+                </button>
+                <button className="btn btn-error btn-md">
+                  Delete Product
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>
