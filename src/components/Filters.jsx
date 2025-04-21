@@ -3,10 +3,32 @@ import FormInput from "./FormInput";
 import FormSelect from "./FormSelect";
 import FormRange from "./FormRange";
 import FormCheckbox from "./FormCheckbox";
+import { useEffect, useState } from "react";
+
+let debounceTimeout;
 
 const Filters = () => {
   const { products } = useLoaderData();
   const [searchParams, setSearchParams] = useSearchParams();
+
+  const searchParam = searchParams.get("search") || "";
+  const [localSearch, setLocalSearch] = useState(searchParam);
+
+  useEffect(() => {
+    clearTimeout(debounceTimeout);
+    debounceTimeout = setTimeout(() => {
+      const newParams = new URLSearchParams(searchParams);
+      if (localSearch) {
+        newParams.set("search", localSearch);
+      } else {
+        newParams.delete("search");
+      }
+      setSearchParams(newParams, { replace: true });
+    }, 300);
+
+    // Cleanup за debounce
+    return () => clearTimeout(debounceTimeout);
+  }, [localSearch]);
 
   const search = searchParams.get("search") || "";
   const category = searchParams.get("category") || "all";
@@ -45,10 +67,8 @@ const Filters = () => {
         name="search"
         label="search product"
         type="search"
-        value={search}
-        onChange={(e) =>
-          setSearchParams({ ...searchParams, search: e.target.value })
-        }
+        value={localSearch}
+        onChange={(e) => setLocalSearch(e.target.value)}
         size="input-sm"
       />
 
