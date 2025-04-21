@@ -11,9 +11,9 @@ export const action = ( store ) => async ({request}) => {
 
   try {
     const response = await customFetch.post('/auth/login', data, { withCredentials: true });
+
     // Pass response data to userslice
     store.dispatch(loginUser(response.data));
-    console.log(response);
     
     toast.success('Account login successfully');
     return redirect('/');
