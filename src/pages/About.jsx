@@ -67,7 +67,7 @@ const About = () => {
                 <div className="stats bg-primary shadow px-4 py-2 rounded-lg">
                     <div className="stat">
                         <div className="stat-title text-primary-content text-4xl font-bold tracking-widest">
-                            comfy
+                            Furnished Store
                         </div>
                     </div>
                 </div>

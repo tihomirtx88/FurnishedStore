@@ -23,7 +23,7 @@ const Checkout = () => {
   return (
     <>
       <SectionTitle text="place your order" />
-      <div className="mt-8 grid gap-8 md:grid-cols-2 items-start">
+      <div className="mt-8 grid gap-8 md:grid-cols-2 items-start py-8 px-8">
         <CheckoutForm />
         <CartTotals />
       </div>

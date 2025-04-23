@@ -32,7 +32,7 @@ const CartItem = ({ cartItem }) => {
         {/* TITLE */}
         <h3 className="capitalize font-medium">{name}</h3>
         {/* COMPANY */}
-        <h4 className="mt-2 capitalize text-sm text-neutral-content">
+        <h4 className="mt-2 capitalize text-sm text-gray-800 dark:text-white">
           {company}
         </h4>
         {/* COLOR */}
@@ -53,7 +53,7 @@ const CartItem = ({ cartItem }) => {
           <select
             name="amount"
             id="amount"
-            className="mt-2 select select-base select-bordered select-xs"
+            className="mt-2 select select-base select-bordered select-xs text-gray-900 dark:text-white bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600"
             value={amount}
             onChange={handleAmount}
           >

@@ -35,7 +35,7 @@ const Navbar = () => {
           to="/"
           className="text-xl font-bold text-gray-800 dark:text-white"
         >
-          MySite
+          <img src="/logo.png" alt="Logo" className="h-10 w-auto"/>
         </NavLink>
         {/* CENTER: Nav Links */}
         <div className="navbar-center flex-grow flex justify-center">
