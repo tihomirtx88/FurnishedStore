@@ -60,22 +60,23 @@ const SingleProduct = () => {
 
   const queryClient = useQueryClient();
 
-  const mutation = useMutation(deleteProduct, {
+  const mutation = useMutation({
+    mutationFn: () => deleteProduct(id),
     onSuccess: () => {
-      queryClient.invalidateQueries(['products']);
+      queryClient.invalidateQueries({ queryKey: ['products'] });
       navigate('/products');
-      },
-      onError: (error) => {
-        console.error("Error deleting product:", error);
-        alert("Something went wrong while deleting the product.");
-      }
-    });
+    },
+    onError: (error) => {
+      console.error("Error deleting product:", error);
+      alert("Something went wrong while deleting the product.");
+    }
+  });
 
-    const handleDelete = () => {
-      const confirmDelete = window.confirm("Are you sure you want to delete this product?");
-      if (!confirmDelete) return;
-      mutation.mutate(id);
-    };
+  const handleDelete = () => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this product?");
+    if (!confirmDelete) return;
+    mutation.mutate(); 
+  };
 
   return (
     <section>
