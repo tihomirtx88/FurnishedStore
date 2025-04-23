@@ -6,7 +6,7 @@ day.extend(advancedFormat);
 const OrdersList = () => {
     const { orders, numOfPages, currentPage, totalProducts, count } = useLoaderData();
     return (
-      <div className="mt-8">
+      <div className="mt-8 px-4 sm:px-6 lg:px-8">
         <h4 className="mb-4 capitalize">total orders :{count}</h4>
         <div className="overflow-x-auto">
           <table className="table table-zebra">
@@ -27,12 +27,12 @@ const OrdersList = () => {
                   order;
                 const date = day(createdAt).format("hh:mm a - MMM Do, YYYY");
                 return (
-                  <tr key={id}>
-                    <td>{name}</td>
-                    <td>{address}</td>
-                    <td>{orderItems.length}</td>
-                    <td>{total}</td>
-                    <td className="hidden sm:block">{date}</td>
+                  <tr key={id} className="text-gray-900 dark:text-gray-100 even:bg-gray-100 dark:even:bg-gray-800">
+                    <td className="px-4 py-2">{name}</td>
+                    <td className="px-4 py-2">{address}</td>
+                    <td className="px-4 py-2">{orderItems.length}</td>
+                    <td className="px-4 py-2">{total}</td>
+                    <td className="hidden sm:block px-4 py-2">{date}</td>
                   </tr>
                 );
               })}
