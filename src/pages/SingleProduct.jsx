@@ -1,9 +1,15 @@
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import { customFetch, generateAmountOptions } from "../utils/idnex";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addItem } from "../features/cart/cartSlice";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+const deleteProduct = async (productId) => {
+  const response = await customFetch.delete(`/products/${productId}`);
+  return response.data;
+};
 
 const singleProductQuery = (id) => {
    return {  
@@ -20,6 +26,7 @@ export const loader = (queryClient) => async ({ params }) => {
 
 const SingleProduct = () => {
   const { product } = useLoaderData();
+  const navigate = useNavigate();
 
   const { id, name, image, company, description, colors, price } = product;
   const [productColors, setProductColors] = useState(
@@ -50,8 +57,25 @@ const SingleProduct = () => {
 
   const user = useSelector((state) => state.userState.user);
   const role = user?.role;
-  console.log(role);
-  
+
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation(deleteProduct, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['products']);
+      navigate('/products');
+      },
+      onError: (error) => {
+        console.error("Error deleting product:", error);
+        alert("Something went wrong while deleting the product.");
+      }
+    });
+
+    const handleDelete = () => {
+      const confirmDelete = window.confirm("Are you sure you want to delete this product?");
+      if (!confirmDelete) return;
+      mutation.mutate(id);
+    };
 
   return (
     <section>
@@ -129,7 +153,7 @@ const SingleProduct = () => {
                 <Link to={`/products/${id}/edit`} className="btn btn-warning btn-md m-4">
                   Edit Product
                 </Link>
-                <button className="btn btn-error btn-md">
+                <button onClick={handleDelete} className="btn btn-error btn-md">
                   Delete Product
                 </button>
               </>
