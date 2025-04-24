@@ -1,6 +1,6 @@
 import { redirect } from "react-router-dom";
 import { toast } from "react-toastify";
-import { SectionTitle } from "../components";
+import { CreateProducrForm, SectionTitle } from "../components";
 
 export const loader = (store) => async () => {
     const user = store.getState().userState.user;

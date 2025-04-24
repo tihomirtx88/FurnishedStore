@@ -1,20 +1,73 @@
-import { Form } from "react-router-dom";
+import { Form, redirect } from "react-router-dom";
 import FormInput from "./FormInput";
 import SubmitBtn from "./SubmitBtn";
+import { toast } from "react-toastify";
+import { customFetch } from "../utils/idnex";
+
+export const action =
+  (store) =>
+  async ({ request }) => {
+    const formData = await request.formData();
+    const user = store.getState().userState.user;
+
+    if (!user) {
+      toast.error("You must to log in first.");
+      return null;
+    }
+
+    const featured = formData.get("featured") === "on";
+    const freeShipping = formData.get("freeShipping") === "on";
+
+    formData.set("featured", featured);
+    formData.set("freeShipping", freeShipping);
+
+    const colors = formData
+      .get("colors")
+      ?.split(",")
+      .map((c) => c.trim());
+
+    if (colors) {
+      formData.set("colors", JSON.stringify(colors));
+    }
+
+    try {
+      const response = await customFetch.post("/products", formData, {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      console.log(response);
+      
+
+      toast.success("Order placed successfully!");
+      return redirect("/products");
+    } catch (error) {
+      console.log(error);
+
+      const msg =
+        error?.response?.data?.error?.message || "Products failed. Try again.";
+      toast.error(msg);
+      if (error.response.status === 401) return redirect("/login");
+      return null;
+    }
+  };
 
 const CreateProducrForm = () => {
   return (
-    <Form method="POST" className="flex flex-col gap-y-4">
+    <Form method="POST" encType="multipart/form-data" className="flex flex-col gap-y-4">
       <h4 className="font-medium text-xl capitalize mb-2">Create Product</h4>
 
       <FormInput label="Name" name="name" type="text" required />
       <FormInput label="Price" name="price" type="number" required />
       <FormInput label="Description" name="description" type="text" required />
-      <FormInput
-        label="Image URL"
+      <label className="form-label">Image</label>
+      <input
+        type="file"
         name="image"
-        type="text"
-        placeholder="/uploads/example.jpeg"
+        accept="image/*"
+        className="file-input file-input-bordered"
       />
 
       {/* Category dropdown */}
