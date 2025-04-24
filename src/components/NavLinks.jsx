@@ -8,6 +8,7 @@ const links = [
   { id: 4, url: 'cart', text: 'cart' },
   { id: 5, url: 'checkout', text: 'checkout' },
   { id: 6, url: 'orders', text: 'orders' },
+  { id: 7, url: 'products/create', text: 'Create product' },
 ];
 
 const NavLinks = () => {
