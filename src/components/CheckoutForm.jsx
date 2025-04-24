@@ -45,6 +45,9 @@ export const action = (store, queryClient) => async ({ request }) => {
           Authorization: `Bearer ${user.token}`,
         },
       });
+
+      console.log(response);
+      
       
       queryClient.removeQueries(['orders']);
       store.dispatch(clearCart());
