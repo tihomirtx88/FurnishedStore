@@ -5,7 +5,6 @@ import { redirect } from "react-router-dom";
 
 export const loader = (store) => async () => {
   const user = store.getState().userState.user;
-  console.log(user);
 
   if (!user) {
     toast.warn("You must to logged in to checkout");
