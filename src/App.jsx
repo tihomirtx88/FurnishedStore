@@ -8,12 +8,14 @@ import { loader as singleProductLoader} from './pages/SingleProduct.jsx';
 import { loader as productsLoader} from './pages/Products.jsx';
 import { loader as checkoutLoader} from './pages/Checkout.jsx';
 import { loader as orderLoader} from './pages/Orders.jsx';
+import { loader as createProductLoader} from './pages/CreateProductPage.jsx';
 
 
 // actions
 import { action as registerAction} from './pages/Register.jsx';
 import { action as loginAction} from './pages/Login.jsx';
 import { action as checkoutAction} from './components/CheckoutForm.jsx';
+import { action as createProductAction } from './components/CreateProducrForm.jsx';
 
 import { store } from "./store.js";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -57,6 +59,8 @@ const router = createBrowserRouter([
       {
         path: 'products/create',
         element: <CreateProductPage/>,
+        loader: createProductLoader(store),
+        action: createProductAction(store, queryClient)
       },
       {
         path: 'cart',
