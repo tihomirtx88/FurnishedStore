@@ -11,3 +11,4 @@ export {default as SingleProduct} from './SingleProduct';
 export {default as Login} from './Login';
 export {default as EditProductPage} from './EditProductPage';
 export {default as CreateProductPage} from './CreateProductPage';
+export {default as ReviewPage} from './ReviewPage';

@@ -1,5 +1,5 @@
 import ErrorElement from './components/ErrorElement.jsx';
-import { About, Cart, Checkout, Login, Error, HomeLayout, Landing, Orders, Products, Register, SingleProduct, EditProductPage, CreateProductPage } from './pages/idnex.js';
+import { About, Cart, Checkout, Login, Error, HomeLayout, Landing, Orders, Products, Register, SingleProduct, EditProductPage, CreateProductPage, ReviewPage } from './pages/idnex.js';
 import { createBrowserRouter, RouterProvider} from 'react-router-dom';
 
 //loaders
@@ -55,6 +55,10 @@ const router = createBrowserRouter([
         path: 'products/:id/edit',
         element: <EditProductPage/>,
         loader: singleProductLoader(queryClient)
+      },
+      {
+        path: 'products/:id/review',
+        element: <ReviewPage/>,
       },
       {
         path: 'products/create',
