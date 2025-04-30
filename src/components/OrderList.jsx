@@ -4,7 +4,7 @@ import advancedFormat from "dayjs/plugin/advancedFormat";
 day.extend(advancedFormat);
 
 const OrdersList = () => {
-    const { orders, numOfPages, currentPage, totalProducts, count } = useLoaderData();
+    const { orders, count } = useLoaderData();
     return (
       <div className="mt-8 px-4 sm:px-6 lg:px-8">
         <h4 className="mb-4 capitalize">total orders :{count}</h4>

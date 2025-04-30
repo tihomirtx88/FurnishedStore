@@ -1,12 +1,12 @@
 import { redirect } from "react-router-dom";
 import { customFetch } from "../utils/idnex";
 import { toast } from "react-toastify";
-import { PaginationContainer, ReviewsList } from "../components";
+import { PaginationContainer, ReviewsList, SectionTitle } from "../components";
 
 const reviewsQuery = (params, user) => {
   return {
     queryKey: [
-      "orders",
+      "reviews",
       user.username,
       params.page ? parseInt(params.page) : 1,
     ],
@@ -25,7 +25,7 @@ export const loader = ( queryClient, store ) => async ({request}) => {
 
     if (!user) {
         toast.warn("You must to be logged in to veiw orders");
-        redirect("/login");
+         return redirect("/login");
     }
 
     const params = Object.fromEntries([
@@ -34,7 +34,6 @@ export const loader = ( queryClient, store ) => async ({request}) => {
 
     try {
         const response = await queryClient.ensureQueryData(reviewsQuery(params, user));
-    
         const { reviews, numOfPages, currentPage, totalProducts, count } = response.data;
         return { reviews, numOfPages, currentPage, totalProducts, count };
     
