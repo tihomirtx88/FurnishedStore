@@ -10,7 +10,7 @@ import { loader as checkoutLoader} from './pages/Checkout.jsx';
 import { loader as orderLoader} from './pages/Orders.jsx';
 import { loader as createProductLoader} from './pages/CreateProductPage.jsx';
 import { loader as createReviewLoader} from './pages/ReviewPage.jsx';
-import { loader as reviewsLoader} from './pages/Reviews.jsx';
+import Reviews, { loader as reviewsLoader} from './pages/Reviews.jsx';
 
 
 // actions
@@ -50,8 +50,8 @@ const router = createBrowserRouter([
       },
       {
         path: 'reviews',
-        element: <Products/>,
-        loader: reviewsLoader(queryClient)
+        element: <Reviews/>,
+        loader: reviewsLoader(queryClient, store)
       },
       {
         path: 'products/:id',

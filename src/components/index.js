@@ -21,3 +21,4 @@ export {default as CartTotals} from './CartTotals';
 export {default as CheckoutForm} from './CheckoutForm';
 export {default as OrderList} from './OrderList';
 export {default as CreateProducrForm} from './CreateProducrForm';
+export {default as ReviewsList} from './ReviewsList'; 
