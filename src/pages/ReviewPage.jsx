@@ -4,12 +4,20 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 
-const submitReview = async ({ productId, review }) => {
+const submitReview = async ({ productId, review, token }) => {
+
     const { data } = await customFetch.post(`/reviews`, {
       ...review,
       product: productId,
-    });
+    },
+    {
+        headers: {
+          Authorization: `Bearer ${token}`,
+       }
+    }
+);
     return data;
 };
 
@@ -25,17 +33,25 @@ const ReviewPage = () => {
     });
 
     const [hoveredStar, setHoveredStar] = useState(null);
+    const user = useSelector((state) => state.userState.user);
 
     const mutation = useMutation({
-        mutationFn: ({ productId, review }) => submitReview({ productId, review }),
+        mutationFn: ({ productId, review }) => submitReview({ productId, review, token: user?.token }),
         onSuccess: () => {
           queryClient.invalidateQueries(["reviews", productId]);
           toast.success("Success submit review");
           navigate(`/products/${productId}`);
         },
         onError: (error) => {
-            console.error("Error submitting review:", error);
-            toast.error("Failed to submit review.");
+            console.error("Error submitting review:", error.response?.data || error.message);
+
+            const backendMessage = error.response?.data?.msg;
+          
+            if (backendMessage === "Already submitted for this product") {
+              toast.error("You have already submitted a review for this product.");
+            } else {
+              toast.error(backendMessage || "Failed to submit review.");
+            }
         },
     });
 
