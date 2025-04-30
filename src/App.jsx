@@ -9,6 +9,7 @@ import { loader as productsLoader} from './pages/Products.jsx';
 import { loader as checkoutLoader} from './pages/Checkout.jsx';
 import { loader as orderLoader} from './pages/Orders.jsx';
 import { loader as createProductLoader} from './pages/CreateProductPage.jsx';
+import { loader as createReviewLoader} from './pages/ReviewPage.jsx';
 
 
 // actions
@@ -59,6 +60,7 @@ const router = createBrowserRouter([
       {
         path: 'products/:id/review',
         element: <ReviewPage/>,
+        loader: createReviewLoader(store)
       },
       {
         path: 'products/create',
