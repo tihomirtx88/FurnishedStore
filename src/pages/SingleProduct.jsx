@@ -15,7 +15,6 @@ const singleProductQuery = (id) => {
    return {  
     queryKey: ['singleProduct', id],
     queryFn: () => customFetch(`/products/${id}`)
-    // queryFn: () => customFetch(`/reviews/${id}`),
   }
 };
 
