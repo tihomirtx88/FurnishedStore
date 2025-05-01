@@ -23,3 +23,4 @@ export {default as OrderList} from './OrderList';
 export {default as CreateProducrForm} from './CreateProducrForm';
 export {default as ReviewsList} from './ReviewsList'; 
 export {default as ProductInfo} from './ProductInfo';
+export {default as ProductActions} from './ProductActions';
