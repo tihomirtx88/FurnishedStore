@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addItem } from "../features/cart/cartSlice";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 const deleteProduct = async (productId) => {
   const response = await customFetch.delete(`/products/${productId}`);
@@ -15,6 +15,7 @@ const singleProductQuery = (id) => {
    return {  
     queryKey: ['singleProduct', id],
     queryFn: () => customFetch(`/products/${id}`)
+    // queryFn: () => customFetch(`/reviews/${id}`),
   }
 };
 
@@ -25,10 +26,12 @@ export const loader = (queryClient) => async ({ params }) => {
 };
 
 const SingleProduct = () => {
+
   const { product } = useLoaderData();
   const navigate = useNavigate();
 
   const { id, name, image, company, description, colors, price } = product;
+
   const [productColors, setProductColors] = useState(
     product.colors ? product.colors[0] : "#222"
   );
@@ -56,6 +59,7 @@ const SingleProduct = () => {
   };
 
   const user = useSelector((state) => state.userState.user);
+  
   const role = user?.role;
 
   const queryClient = useQueryClient();
@@ -77,6 +81,27 @@ const SingleProduct = () => {
     if (!confirmDelete) return;
     mutation.mutate(); 
   };
+
+  // Use query for review
+  const { data: reviewsData } = useQuery({
+    queryKey: ["productReviews", id],
+    queryFn: async () => {
+      try {
+        const res = await customFetch(`/reviews/product/${id}`);   
+        return res.data;  
+      } catch (err) {
+        console.error("Error fetching reviews:", err);
+        throw err;
+      }
+    },
+    enabled: !!user && !!id,  
+  });
+    
+  //Get review
+  const productReviews = reviewsData?.reviews || [];
+  //Match review with current user
+  const userReview = productReviews.find((review) => review.user === user?.userId);
+
 
   return (
     <section>
@@ -159,9 +184,23 @@ const SingleProduct = () => {
                 </button>
               </>
             )}
-              <Link to={`/products/${id}/review`} className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 btn-md m-4">
-                  Add review
-              </Link>
+              {user && (
+                userReview ? (
+                  <Link
+                    to={`/reviews/${userReview._id}/edit`}
+                    className="btn btn-outline btn-warning m-4"
+                  >
+                    Edit Your Review
+                  </Link>
+                ) : (
+                  <Link
+                    to={`/products/${id}/review`}
+                    className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 btn-md m-4"
+                  >
+                    Add Review
+                  </Link>
+                )
+              )}
       
           </div>
         </div>
