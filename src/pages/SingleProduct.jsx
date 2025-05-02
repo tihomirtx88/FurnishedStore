@@ -1,16 +1,12 @@
-import { useLoaderData, useNavigate } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 import { customFetch, generateAmountOptions } from "../utils/idnex";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addItem } from "../features/cart/cartSlice";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ProductActions, ProductImage, ProductInfo, ProductReviews } from "../components";
-
-const deleteProduct = async (productId) => {
-  const response = await customFetch.delete(`/products/${productId}`);
-  return response.data;
-};
+import { useDeleteProduct } from '../hooks/useDeleteProduct';
+import { useProductReviews } from '../hooks/useProductReviews';
 
 const singleProductQuery = (id) => {
   return {
@@ -28,18 +24,16 @@ export const loader = (queryClient) => async ({ params }) => {
 const SingleProduct = () => {
 
   const { product } = useLoaderData();
-  const navigate = useNavigate();
+  const { id, name, image, company, colors, price } = product;
 
-  const { id, name, image, company, description, colors, price } = product;
-
-  const [productColors, setProductColors] = useState(
-    product.colors ? product.colors[0] : "#222"
-  );
+  const [productColors, setProductColors] = useState(colors?.[0] || "#222");
   const [amount, setAmount] = useState(1);
 
-  const handleAmount = (e) => {
-    setAmount(parseInt(e.target.value));
-  };
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.userState.user);
+  const role = user?.role;
+
+  const handleAmount = (e) => setAmount(parseInt(e.target.value));
 
   const cartProduct = {
     cartID: id + productColors,
@@ -49,62 +43,25 @@ const SingleProduct = () => {
     price,
     company,
     productColors,
-    amount
+    amount,
   };
 
-  const dispatch = useDispatch();
+  const addToCart = () => dispatch(addItem({ product: cartProduct }));
 
-  const addToCart = () => {
-    dispatch(addItem({ product: cartProduct }));
-  };
-
-  const user = useSelector((state) => state.userState.user);
-  const role = user?.role;
-
-  const queryClient = useQueryClient();
-
-  const mutation = useMutation({
-    mutationFn: () => deleteProduct(id),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['products'] });
-      navigate('/products');
-    },
-    onError: (error) => {
-      console.error("Error deleting product:", error);
-      alert("Something went wrong while deleting the product.");
-    }
-  });
+  const { data: reviewsData } = useProductReviews(id, user);
+  const deleteMutation = useDeleteProduct(id);
 
   const handleDelete = () => {
     const confirmDelete = window.confirm("Are you sure you want to delete this product?");
-    if (!confirmDelete) return;
-    mutation.mutate();
+    if (confirmDelete) deleteMutation.mutate();
   };
-
-  const { data: reviewsData } = useQuery({
-    queryKey: ["productReviews", id],
-    queryFn: async () => {
-      try {
-        const res = await customFetch(`/reviews/product/${id}`);
-        return res.data;
-      } catch (err) {
-        console.error("Error fetching reviews:", err);
-        throw err;
-      }
-    },
-    enabled: !!user && !!id,
-  });
 
   return (
     <section>
       <div className="text-md breadcrumbs">
         <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/products">Products</Link>
-          </li>
+          <li><Link to="/">Home</Link></li>
+          <li><Link to="/products">Products</Link></li>
         </ul>
       </div>
       <div className="mt-6 grid gap-y-8 lg:grid-cols-2 lg:gap-x-16">
@@ -126,7 +83,7 @@ const SingleProduct = () => {
             userReview={reviewsData?.reviews?.find((review) => review.user === user?.userId)}
             user={user}
           />
-          <ProductReviews reviewsData={reviewsData} user={user} id={id}/>
+          <ProductReviews reviewsData={reviewsData} user={user} id={id} />
         </div>
       </div>
     </section>
