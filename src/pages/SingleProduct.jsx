@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addItem } from "../features/cart/cartSlice";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { ProductActions, ProductImage, ProductInfo, ProductReviews } from "../components";
 
 const deleteProduct = async (productId) => {
   const response = await customFetch.delete(`/products/${productId}`);
@@ -12,7 +13,7 @@ const deleteProduct = async (productId) => {
 };
 
 const singleProductQuery = (id) => {
-   return {  
+  return {
     queryKey: ['singleProduct', id],
     queryFn: () => customFetch(`/products/${id}`)
   }
@@ -44,7 +45,7 @@ const SingleProduct = () => {
     cartID: id + productColors,
     productID: id,
     image,
-    name, 
+    name,
     price,
     company,
     productColors,
@@ -54,11 +55,10 @@ const SingleProduct = () => {
   const dispatch = useDispatch();
 
   const addToCart = () => {
-    dispatch(addItem({product: cartProduct}));
+    dispatch(addItem({ product: cartProduct }));
   };
 
   const user = useSelector((state) => state.userState.user);
-  
   const role = user?.role;
 
   const queryClient = useQueryClient();
@@ -78,29 +78,22 @@ const SingleProduct = () => {
   const handleDelete = () => {
     const confirmDelete = window.confirm("Are you sure you want to delete this product?");
     if (!confirmDelete) return;
-    mutation.mutate(); 
+    mutation.mutate();
   };
 
-  // Use query for review
   const { data: reviewsData } = useQuery({
     queryKey: ["productReviews", id],
     queryFn: async () => {
       try {
-        const res = await customFetch(`/reviews/product/${id}`);   
-        return res.data;  
+        const res = await customFetch(`/reviews/product/${id}`);
+        return res.data;
       } catch (err) {
         console.error("Error fetching reviews:", err);
         throw err;
       }
     },
-    enabled: !!user && !!id,  
+    enabled: !!user && !!id,
   });
-    
-  //Get review
-  const productReviews = reviewsData?.reviews || [];
-  //Match review with current user
-  const userReview = productReviews.find((review) => review.user === user?.userId);
-
 
   return (
     <section>
@@ -114,94 +107,26 @@ const SingleProduct = () => {
           </li>
         </ul>
       </div>
-      {/* PRODUCT */}
       <div className="mt-6 grid gap-y-8 lg:grid-cols-2 lg:gap-x-16">
-        {/* IMAGE */}
-        <img
-          src={image}
-          alt={name}
-          className="w-96 h-96 object-contain rounded-lg lg:w-full"
-        />
-        {/* PRODUCT */}
+        <ProductImage image={image} name={name} />
         <div>
-          <h1 className="capitalize text-3xl font-bold">{name}</h1>
-          <h4 className="text-xl text-neutral-content font-bold mt-2">
-            {company}
-          </h4>
-          <p className="mt-3 text-xl"></p>
-          <p className="mt-6 leading-8">{description}</p>
-          {/* COLORS */}
-          <div className="mt-6">
-            <h4 className="text-md font-medium tracking-wider capitalize">
-              colors
-            </h4>
-            <div className="mt-2">
-              {colors &&
-                colors.map((color) => (
-                  <button
-                    key={color}
-                    type="button"
-                    className={`badge w-6 h-6 mr-2 ${
-                      color === productColors ? "border-2 border-secondary" : ""
-                    }`}
-                    style={{ backgroundColor: color }}
-                    onClick={() => setProductColors(color)}
-                  ></button>
-                ))}
-            </div>
-          </div>
-          {/* AMOUNT */}
-          <div className="form-control w-full max-w-xs">
-            <label className="label" htmlFor="amount">
-              <h4 className="text-md font-medium -tracking-wider capitalize">
-                amount
-              </h4>
-            </label>
-            <select
-              className="select select-secondary select-bordered select-md text-black"
-              id="amount"
-              value={amount}
-              onChange={handleAmount}
-            >
-              {generateAmountOptions(5).map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-          </div>
-          {/* CART BTN */}
-          <div className="mt-10">
-            <button className="btn btn-secondary btn-md" onClick={addToCart}>Add to bag</button>
-            {role === "admin" && (
-              <>
-                <Link to={`/products/${id}/edit`} className="btn btn-warning btn-md m-4">
-                  Edit Product
-                </Link>
-                <button onClick={handleDelete} className="btn btn-error btn-md">
-                  Delete Product
-                </button>
-              </>
-            )}
-              {user && (
-                userReview ? (
-                  <Link
-                    to={`/reviews/${userReview._id}/edit`}
-                    className="btn btn-outline btn-warning m-4"
-                  >
-                    Edit Your Review
-                  </Link>
-                ) : (
-                  <Link
-                    to={`/products/${id}/review`}
-                    className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 btn-md m-4"
-                  >
-                    Add Review
-                  </Link>
-                )
-              )}
-      
-          </div>
+          <ProductInfo
+            product={product}
+            productColors={productColors}
+            setProductColors={setProductColors}
+            amount={amount}
+            handleAmount={handleAmount}
+            generateAmountOptions={generateAmountOptions}
+          />
+          <ProductActions
+            role={role}
+            addToCart={addToCart}
+            handleDelete={handleDelete}
+            productId={id}
+            userReview={reviewsData?.reviews?.find((review) => review.user === user?.userId)}
+            user={user}
+          />
+          <ProductReviews reviewsData={reviewsData} user={user} id={id}/>
         </div>
       </div>
     </section>
